@@ -1,0 +1,84 @@
+# import
+import time
+import miro2 as miro
+
+# setup
+robot = miro.interface.PlatformInterface()
+time.sleep(1.0)
+
+# control - start
+print "start"
+
+# look left, then right, then forward with pauses
+robot.set_neck(miro.constants.JOINT_LIFT, 5)
+robot.sleep(3)
+robot.set_neck(miro.constants.JOINT_YAW, 60)
+robot.sleep(3)
+robot.set_neck(miro.constants.JOINT_YAW, -60)
+robot.sleep(3)
+robot.set_neck(miro.constants.JOINT_YAW, 0)
+robot.sleep(3)
+
+# move forward 5 seconds, stop
+robot.set_forward_speed(+0.25)
+robot.sleep(5)
+robot.set_forward_speed(0.0)
+
+# wait for clap
+while robot.clap() == False:
+  time.sleep(0.025)
+  
+# after clap, wag tail and wink
+robot.wag_tail(3, 18)
+robot.sleep(3)
+robot.set_neck(miro.constants.JOINT_YAW, -60)
+robot.sleep(2)
+robot.set_joint(miro.constants.JOINT_EYE_L, 1.0)
+robot.sleep(1)
+robot.set_joint(miro.constants.JOINT_EYE_L, 0.0)
+robot.sleep(1)
+
+# turn right
+robot.set_turn_speed(-60)
+robot.sleep(2)
+robot.set_turn_speed(0.0)
+# move ears
+robot.set_neck(miro.constants.JOINT_YAW, 0.5)
+robot.set_joint(miro.constants.JOINT_EAR_L, 0.0)
+robot.set_joint(miro.constants.JOINT_EAR_R, 0.0)
+robot.sleep(2)
+robot.set_joint(miro.constants.JOINT_EAR_L, 1.0)
+robot.set_joint(miro.constants.JOINT_EAR_R, 1.0)
+robot.sleep(2)
+
+# wag and droop tail right
+robot.set_joint(miro.constants.JOINT_WAG, 1.0)
+robot.set_joint(miro.constants.JOINT_DROOP, 0.0)
+robot.sleep(3)
+
+# turn right 
+robot.set_turn_speed(-60)
+robot.sleep(0.5)
+robot.set_turn_speed(0.0)
+
+# move forward for 5 seconds
+robot.set_forward_speed(+0.25)
+robot.sleep(5)
+robot.set_forward_speed(0.0)
+
+# wink with left eye
+robot.set_joint(miro.constants.JOINT_EYE_L, 1.0)
+robot.sleep(1)
+robot.set_joint(miro.constants.JOINT_EYE_L, 0.0)
+robot.sleep(1)
+
+# control - finish
+print "finish"
+
+# exit
+robot.exit()
+
+
+
+
+
